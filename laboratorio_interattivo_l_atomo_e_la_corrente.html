@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dall'Atomo alla Corrente Elettrica - Lezione Interattiva</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            lab: {
+              900: '#0b1120',
+              800: '#131d35',
+              700: '#1e294b',
+              glow: '#38bdf8',
+              electron: '#00f0ff',
+              proton: '#ef4444',
+              neutron: '#94a3b8',
+              copper: '#f97316'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom glow effects and scrollbar */
+    .glow-cyan {
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+    }
+    .glow-amber {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+    }
+    .glow-text {
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e294b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38bdf8;
+    }
+  </style>
+</head>
+
+<body class="bg-lab-900 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-cyan-500 selection:text-slate-900">
+  <!-- Top Navigation / Header -->
+  <header class="border-b border-slate-800 bg-lab-900/90 backdrop-blur sticky top-0 z-50 px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">
+          <i class="fa-solid fa-atom text-xl animate-spin" style="animation-duration: 12s;"></i>
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Scienze & Tecnologie Applicate</span>
+          <h1 class="text-lg md:text-xl font-heading font-extrabold text-white leading-tight">Dall'Atomo alla Corrente Elettrica</h1>
+        </div>
+      </div>
+      
+      <!-- Section Navigation Pills -->
+      <nav class="flex items-center gap-1.5 p-1 bg-lab-800/80 rounded-xl border border-slate-700/60 text-xs md:text-sm font-semibold">
+        <button id="navBtnAtomo" onclick="switchMainTab('atomo')" class="px-3.5 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold transition-all shadow-sm flex items-center gap-2">
+          <i class="fa-solid fa-circle-nodes"></i>
+          <span>1. I Modelli dell'Atomo</span>
+        </button>
+        <button id="navBtnCorrente" onclick="switchMainTab('corrente')" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all flex items-center gap-2">
+          <i class="fa-solid fa-bolt"></i>
+          <span>2. La Corrente nel Cavo</span>
+        </button>
+        <button id="navBtnQuiz" onclick="switchMainTab('quiz')" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all flex items-center gap-2">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>3. Mini-Quiz</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8 flex flex-col gap-6">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: I MODELLI ATOMICI                   -->
+    <!-- ========================================== -->
+    <div id="tabAtomo" class="space-y-6">
+      
+      <!-- Introduction Banner -->
+      <div class="bg-gradient-to-r from-blue-900/40 via-cyan-900/20 to-slate-900 border border-cyan-500/30 rounded-2xl p-4 md:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="inline-flex items-center gap-2 text-cyan-400 text-xs uppercase font-extrabold tracking-wider bg-cyan-950/60 px-2.5 py-1 rounded-full border border-cyan-800">
+            <i class="fa-solid fa-compass"></i> Come è fatto il mondo microscopico?
+          </div>
+          <h2 class="text-xl md:text-2xl font-heading font-bold text-white">L'evoluzione dell'atomo nel tempo</h2>
+          <p class="text-sm text-slate-300">
+            Gli scienziati non possono vedere l'atomo ad occhio nudo: hanno creato <span class="text-cyan-300 font-semibold">modelli</span> sempre più precisi per spiegare gli esperimenti.
+          </p>
+        </div>
+        <div class="text-xs bg-slate-800/80 border border-slate-700 p-3 rounded-xl max-w-xs text-slate-300">
+          <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i>
+          <strong>Regola d'oro:</strong> I contrari si attraggono (<span class="text-red-400 font-bold">+</span> con <span class="text-cyan-400 font-bold">-</span>), le cariche uguali si respingono!
+        </div>
+      </div>
+
+      <!-- Interactive Model Showcase -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left: Interactive Canvas Simulator -->
+        <div class="lg:col-span-7 bg-lab-800 rounded-2xl border border-slate-700/80 p-4 shadow-xl flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span id="canvasBadgeYear" class="bg-cyan-500/20 text-cyan-300 text-xs font-bold px-2.5 py-1 rounded-lg border border-cyan-500/30">1897</span>
+              <h3 id="canvasModelTitle" class="font-heading font-bold text-lg text-white">Modello di Thomson ("A Panettone")</h3>
+            </div>
+            <!-- Canvas Action Button (e.g. quantum leap / trigger) -->
+            <button id="modelActionBtn" onclick="triggerModelInteraction()" class="hidden text-xs bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold px-3 py-1.5 rounded-lg shadow-md transition-all active:scale-95 flex items-center gap-1.5">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span id="modelActionText">Fai Saltare l'Elettrone!</span>
+            </button>
+          </div>
+
+          <!-- The Canvas Area -->
+          <div class="relative w-full aspect-[4/3] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
+            <canvas id="atomCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+            
+            <!-- Floating overlay legend -->
+            <div id="atomLegend" class="absolute bottom-3 left-3 bg-lab-900/90 backdrop-blur border border-slate-700 text-[11px] px-3 py-2 rounded-lg flex items-center gap-3">
+              <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span> Carica Positiva (+)</div>
+              <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block shadow-sm shadow-cyan-400"></span> Elettrone (-)</div>
+            </div>
+
+            <div id="quantumFlash" class="pointer-events-none absolute inset-0 bg-amber-400/20 opacity-0 transition-opacity duration-300"></div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 px-1">
+            <span><i class="fa-solid fa-hand-pointer mr-1 text-cyan-400"></i> Muovi il mouse o tocca per interagire con il campo</span>
+            <span id="canvasFpsHint" class="text-slate-500">Animazione 60fps</span>
+          </div>
+        </div>
+
+        <!-- Right: Model Selection and Educational Explanations -->
+        <div class="lg:col-span-5 flex flex-col gap-4">
+          
+          <!-- Model Picker Buttons -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-2">
+            <button onclick="selectModel('dalton')" id="btnModel-dalton" class="model-tab-btn p-3 rounded-xl border border-slate-700 bg-lab-800/80 hover:bg-slate-700/50 text-left transition-all">
+              <div class="text-[10px] text-slate-400 uppercase font-bold">1803</div>
+              <div class="font-heading font-bold text-sm text-white">1. Dalton</div>
+              <div class="text-xs text-slate-400 truncate">La sfera piena</div>
+            </button>
+            <button onclick="selectModel('thomson')" id="btnModel-thomson" class="model-tab-btn p-3 rounded-xl border border-cyan-500/80 bg-cyan-950/40 text-left transition-all">
+              <div class="text-[10px] text-cyan-400 uppercase font-bold">1897</div>
+              <div class="font-heading font-bold text-sm text-cyan-200">2. Thomson</div>
+              <div class="text-xs text-slate-300 truncate">Il "Panettone"</div>
+            </button>
+            <button onclick="selectModel('rutherford')" id="btnModel-rutherford" class="model-tab-btn p-3 rounded-xl border border-slate-700 bg-lab-800/80 hover:bg-slate-700/50 text-left transition-all">
+              <div class="text-[10px] text-slate-400 uppercase font-bold">1911</div>
+              <div class="font-heading font-bold text-sm text-white">3. Rutherford</div>
+              <div class="text-xs text-slate-400 truncate">Il sistema planetario</div>
+            </button>
+            <button onclick="selectModel('bohr')" id="btnModel-bohr" class="model-tab-btn p-3 rounded-xl border border-slate-700 bg-lab-800/80 hover:bg-slate-700/50 text-left transition-all">
+              <div class="text-[10px] text-slate-400 uppercase font-bold">1913</div>
+              <div class="font-heading font-bold text-sm text-white">4. Bohr</div>
+              <div class="text-xs text-slate-400 truncate">I binari quantici</div>
+            </button>
+            <button onclick="selectModel('moderno')" id="btnModel-moderno" class="model-tab-btn col-span-2 p-3 rounded-xl border border-slate-700 bg-lab-800/80 hover:bg-slate-700/50 text-left transition-all">
+              <div class="text-[10px] text-slate-400 uppercase font-bold">Oggi (Meccanica Quantistica)</div>
+              <div class="font-heading font-bold text-sm text-white">5. Nube Elettronica / Orbitale</div>
+              <div class="text-xs text-slate-400">Non traiettorie, ma nuvole di probabilità</div>
+            </button>
+          </div>
+
+          <!-- Educational Card: Description & Why Obsolete -->
+          <div id="modelDetailsCard" class="bg-lab-800 rounded-2xl border border-slate-700 p-5 space-y-4">
+            <!-- Dynamic Content populated by JS -->
+            <div>
+              <span class="text-xs uppercase font-extrabold tracking-wider text-cyan-400" id="cardModelSubtitle">Come immaginava l'atomo?</span>
+              <p id="cardModelDesc" class="text-sm text-slate-200 mt-1 leading-relaxed">
+                Thomson scopre che dentro l'atomo ci sono piccoli pezzetti con carica negativa: gli <strong>elettroni</strong>. Immaginò l'atomo come un panettone (o plum cake): una massa sferica positiva in cui sono incastonati gli elettroni, proprio come l'uvetta nell'impasto!
+              </p>
+            </div>
+
+            <!-- Practical Daily Analogy -->
+            <div class="p-3 bg-slate-900/80 rounded-xl border-l-4 border-amber-400 text-xs space-y-1">
+              <span class="font-bold text-amber-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-cookie-bite"></i> Esempio Pratico per Ricordare:
+              </span>
+              <p id="cardModelAnalogy" class="text-slate-300 leading-normal">
+                Pensa a un muffin con le gocce di cioccolato: l'impasto dolce è la carica positiva, le gocce di cioccolato sono gli elettroni negativi bloccati dentro.
+              </p>
+            </div>
+
+            <!-- Why is it obsolete? (The Flaw) -->
+            <div class="p-3 bg-red-950/30 rounded-xl border border-red-500/30 text-xs space-y-1">
+              <span class="font-bold text-red-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-triangle-exclamation"></i> Perché è stato superato? Il difetto:
+              </span>
+              <p id="cardModelFlaw" class="text-slate-300 leading-normal">
+                Se l'atomo fosse davvero pieno e soffice, sparandogli contro particelle pesanti dovrebbero tutte passare dritte. Invece l'esperimento di Rutherford dimostrò che alcune rimbalzavano indietro! C'era un nucleo compatto al centro.
+              </p>
+            </div>
+
+            <!-- Transition clue to next step -->
+            <button onclick="goToNextModel()" class="w-full py-2 px-4 rounded-xl bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold transition flex items-center justify-center gap-2">
+              <span>Passa al modello successivo</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Summary Cards for 1st Year Students -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-lab-800/60 p-4 rounded-xl border border-slate-700/60 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-sm shrink-0">P+</div>
+          <div class="text-xs">
+            <strong class="text-white block text-sm">Il Protone (Carica +)</strong>
+            Pesa molto, sta fermo nel nucleo centrale insieme ai neutroni. Non scappa mai nei fili elettrici!
+          </div>
+        </div>
+        <div class="bg-lab-800/60 p-4 rounded-xl border border-slate-700/60 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-sm shrink-0">e-</div>
+          <div class="text-xs">
+            <strong class="text-white block text-sm">L'Elettrone (Carica -)</strong>
+            È leggerissimo (quasi 2000 volte più leggero del protone!) e si trova all'esterno. È lui il protagonista della corrente!
+          </div>
+        </div>
+        <div class="bg-lab-800/60 p-4 rounded-xl border border-slate-700/60 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm shrink-0"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+          <div class="text-xs">
+            <strong class="text-white block text-sm">Il Vuoto Atomico</strong>
+            Se il nucleo fosse una mela a centrocampo nello stadio San Siro, gli elettroni sarebbero moscerini sull'ultimo anello degli spalti. Il resto è <strong>vuoto</strong>!
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: DALL'ATOMO ALLA CORRENTE ELETTRICA  -->
+    <!-- ========================================== -->
+    <div id="tabCorrente" class="space-y-6 hidden">
+      
+      <!-- Bridge Explanation Banner -->
+      <div class="bg-gradient-to-r from-amber-950/40 via-lab-800 to-slate-900 border border-amber-500/30 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="space-y-1.5">
+          <div class="inline-flex items-center gap-2 text-amber-400 text-xs uppercase font-extrabold tracking-wider bg-amber-950/60 px-2.5 py-1 rounded-full border border-amber-800">
+            <i class="fa-solid fa-plug"></i> Il Grande Passo: Dal Micro al Nostro Impianto
+          </div>
+          <h2 class="text-xl md:text-2xl font-heading font-bold text-white">Come nasce la Corrente Elettrica?</h2>
+          <p class="text-sm text-slate-300 max-w-3xl leading-relaxed">
+            Nei metalli (come il rame dei cavi di casa o dell'officina), gli elettroni più esterni non sono legati stretti al loro atomo: sono <span class="text-amber-400 font-bold">elettroni liberi</span>! Formano un mare condiviso. Quando colleghi una batteria, crei una spinta (<strong class="text-white">tensione in Volt</strong>) che li costringe a marciare tutti insieme.
+          </p>
+        </div>
+        <button onclick="toggleSwitchState()" class="shrink-0 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-heading font-extrabold px-5 py-3 rounded-xl shadow-lg transition-transform active:scale-95 flex items-center gap-2 text-sm">
+          <i class="fa-solid fa-power-off text-base"></i>
+          <span id="btnMainSwitchLabel">CHIUDI IL CIRCUITO (ON)</span>
+        </button>
+      </div>
+
+      <!-- Live Wire Simulation Canvas & Controls -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Wire Visualizer Canvas -->
+        <div class="lg:col-span-8 bg-lab-800 rounded-2xl border border-slate-700/80 p-4 shadow-xl flex flex-col gap-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-amber-500 animate-pulse"></span>
+              <h3 class="font-heading font-bold text-base md:text-lg text-white">Sezione del Filo di Rame (Cu) al Microscopio</h3>
+            </div>
+            <!-- Battery / Voltage Indicator -->
+            <div class="flex items-center gap-2 bg-slate-900 px-3 py-1 rounded-lg border border-slate-700 text-xs">
+              <span class="text-slate-400">Tensione applicata:</span>
+              <span id="voltageDisplay" class="font-mono font-bold text-cyan-400">0.0 Volt (Aperto)</span>
+            </div>
+          </div>
+
+          <!-- Canvas for the Copper Cable -->
+          <div class="relative w-full aspect-[16/9] md:aspect-[2/1] bg-slate-950 rounded-xl overflow-hidden border-2 border-slate-800 flex items-center justify-center">
+            <canvas id="currentCanvas" class="w-full h-full block"></canvas>
+
+            <!-- Virtual lightbulb connected to the circuit -->
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center">
+              <div id="virtualLamp" class="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center transition-all duration-300">
+                <i id="virtualLampIcon" class="fa-solid fa-lightbulb text-2xl md:text-3xl text-slate-500 transition-colors"></i>
+              </div>
+              <span id="virtualLampText" class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-1">Spenta</span>
+            </div>
+
+            <!-- Flow Arrow Indicator -->
+            <div id="flowIndicator" class="absolute top-3 left-1/2 -translate-x-1/2 bg-blue-900/80 border border-blue-500/50 text-blue-200 text-xs px-3 py-1 rounded-full opacity-0 transition-opacity flex items-center gap-2">
+              <span>Flusso reale degli elettroni (-) verso (+)</span>
+              <i class="fa-solid fa-arrow-right animate-pulse"></i>
+            </div>
+          </div>
+
+          <!-- Simulation Controls -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Voltage Slider -->
+            <div class="flex items-center gap-3 flex-1 min-w-[220px]">
+              <label for="voltageSlider" class="text-xs text-slate-300 font-semibold shrink-0">
+                <i class="fa-solid fa-car-battery text-amber-400 mr-1"></i> Tensione (V):
+              </label>
+              <input id="voltageSlider" type="range" min="0" max="24" step="1" value="0" oninput="updateVoltageFromSlider(this.value)" class="w-full accent-cyan-400 cursor-pointer">
+              <span id="sliderValueText" class="text-xs font-mono font-bold text-cyan-400 w-12 text-right">0 V</span>
+            </div>
+
+            <!-- Temperature Slider (Agitazione Termica) -->
+            <div class="flex items-center gap-3 flex-1 min-w-[200px]">
+              <label for="tempSlider" class="text-xs text-slate-300 font-semibold shrink-0">
+                <i class="fa-solid fa-temperature-three-quarters text-red-400 mr-1"></i> Calore filo:
+              </label>
+              <input id="tempSlider" type="range" min="10" max="100" step="5" value="25" oninput="updateThermalAgitation(this.value)" class="w-full accent-red-400 cursor-pointer">
+              <span id="tempValueText" class="text-xs font-mono font-bold text-red-400 w-12 text-right">25°C</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: Real-World Vocational Concepts -->
+        <div class="lg:col-span-4 space-y-4">
+          
+          <!-- Key Terms Card -->
+          <div class="bg-lab-800 rounded-2xl border border-slate-700 p-5 space-y-3">
+            <h4 class="font-heading font-bold text-base text-white flex items-center gap-2">
+              <i class="fa-solid fa-graduation-cap text-cyan-400"></i> Le 3 Parole Chiave da Officina
+            </h4>
+
+            <div class="space-y-2.5 text-xs">
+              <div class="p-2.5 rounded-lg bg-slate-900 border-l-4 border-cyan-400">
+                <strong class="text-cyan-300 block font-semibold text-sm">1. Corrente (I) - Ampere [A]</strong>
+                <p class="text-slate-300 mt-0.5">È la <strong>quantità</strong> di elettroni che passano in un secondo nel filo. Come litri d'acqua che escono da un tubo.</p>
+              </div>
+
+              <div class="p-2.5 rounded-lg bg-slate-900 border-l-4 border-amber-400">
+                <strong class="text-amber-300 block font-semibold text-sm">2. Tensione (V) - Volt [V]</strong>
+                <p class="text-slate-300 mt-0.5">È la <strong>spinta</strong> (pressione). Senza batteria o generatore, gli elettroni ballano sul posto ma non vanno da nessuna parte!</p>
+              </div>
+
+              <div class="p-2.5 rounded-lg bg-slate-900 border-l-4 border-red-400">
+                <strong class="text-red-300 block font-semibold text-sm">3. Resistenza (R) - Ohm [Ω]</strong>
+                <p class="text-slate-300 mt-0.5">Gli elettroni urtano contro gli ioni di rame fissi. Questo rallenta la marcia e scalda il filo (<strong>Effetto Joule</strong>).</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Classroom Analogy Box -->
+          <div class="bg-gradient-to-br from-slate-800 to-lab-800 rounded-2xl border border-slate-700/80 p-4 text-xs space-y-2">
+            <span class="font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-users"></i> L'analogia della campanella
+            </span>
+            <p class="text-slate-300 leading-relaxed">
+              Immagina il corridoio della scuola durante l'intervallo: gli studenti (elettroni) si muovono a caso in tutte le direzioni. <strong>Corrente totale = zero</strong>.
+              <br><br>
+              Suona la campanella della fine delle lezioni: tutti corrono insieme verso la porta d'uscita nella stessa direzione. <strong>Quella è la corrente elettrica!</strong>
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: MINI QUIZ DI AUTOVALUTAZIONE        -->
+    <!-- ========================================== -->
+    <div id="tabQuiz" class="space-y-6 hidden">
+      
+      <div class="bg-lab-800 border border-slate-700 rounded-2xl p-6 text-center max-w-2xl mx-auto space-y-4">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-2xl">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <h2 class="text-2xl font-heading font-extrabold text-white">Mettiti alla prova: Sei pronto per l'officina?</h2>
+        <p class="text-sm text-slate-300">
+          Rispondi a queste 4 domande semplici ma fondamentali sull'atomo e sui conduttori elettrici.
+        </p>
+
+        <!-- Progress Tracker -->
+        <div class="flex items-center justify-center gap-2 pt-2">
+          <span id="quizScoreText" class="text-xs font-bold text-cyan-400 bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-800">
+            Punteggio: 0 / 4
+          </span>
+        </div>
+      </div>
+
+      <!-- Quiz Questions Grid -->
+      <div class="max-w-3xl mx-auto space-y-4" id="quizContainer">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+
+      <div class="text-center pt-4">
+        <button onclick="resetQuiz()" class="text-xs bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 px-4 py-2 rounded-xl transition">
+          <i class="fa-solid fa-rotate-right mr-1.5"></i> Riavvia il Quiz
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="border-t border-slate-800 bg-lab-900 py-4 px-4 text-center text-xs text-slate-500">
+    <p>Materiale didattico multimediale creato per le classi 1ª Istituti Professionali (MAT / Manutenzione e Assistenza Tecnica, Elettronica, Meccanica).</p>
+  </footer>
+
+  <!-- ========================================================= -->
+  <!-- JAVASCRIPT: SIMULATION ENGINES & PEDAGOGICAL LOGIC        -->
+  <!-- ========================================================= -->
+  <script>
+    // Global State
+    let currentMainTab = 'atomo';
+    let activeModel = 'thomson';
+    let atomAnimationId = null;
+    let currentAnimationId = null;
+
+    // Canvas contexts
+    const atomCanvas = document.getElementById('atomCanvas');
+    const atomCtx = atomCanvas.getContext('2d');
+
+    const currentCanvas = document.getElementById('currentCanvas');
+    const currentCtx = currentCanvas.getContext('2d');
+
+    // Mouse coordinates for interactive canvas
+    let mouse = { x: -1000, y: -1000, active: false };
+
+    // Models definitions and pedagogical data
+    const MODELS = {
+      dalton: {
+        year: '1803',
+        title: 'Modello di Dalton ("La Sfera Indivisibile")',
+        subtitle: 'Una pallina piena, liscia e indistruttibile',
+        desc: 'John Dalton pensava che la materia fosse fatta di particelle piccolissime, dure e piene come <strong>palline da biliardo</strong>. Secondo lui, l\'atomo non si poteva spezzare né aprire in alcun modo.',
+        analogy: 'Immagina una pallina di piombo o una biglia d\'acciaio massiccia: nessuna parte interna, nessun elettrone.',
+        flaw: '<strong>Perché è sbagliato?</strong> Alla fine dell\'800 si scoprì che strofinando oggetti compariva elettricità statica. Se l\'atomo fosse una pallina neutra inscalfibile, da dove uscivano le cariche elettriche?',
+        hasInteraction: false
+      },
+      thomson: {
+        year: '1897',
+        title: 'Modello di Thomson ("A Panettone" o Plum Pudding)',
+        subtitle: 'La scoperta dell\'elettrone negativo',
+        desc: 'Thomson scoprì la prima particella subatomica: l\'<strong>elettrone</strong> (con carica negativa -). Pensò che l\'atomo fosse una grossa sfera positiva, morbida e continua, con gli elettroni incastonati dentro.',
+        analogy: 'Pensa a un panettone natalizio: l\'impasto dolce è la carica positiva, i canditi e l\'uvetta sono gli elettroni negativi fermi.',
+        flaw: '<strong>Perché è superato?</strong> Rutherford bombardò gli atomi con proiettili carichi: quasi tutti passavano dritti come nel vuoto, e pochissimi rimbalzavano con violenza! L\'atomo non è affatto una massa piena.',
+        hasInteraction: false
+      },
+      rutherford: {
+        year: '1911',
+        title: 'Modello di Rutherford ("Planetario")',
+        subtitle: 'Il nucleo al centro e il 99.99% di spazio vuoto',
+        desc: 'Rutherford dimostrò che tutta la carica positiva e quasi tutta la massa sono concentrate in un puntino minuscolo al centro: il <strong>nucleo</strong>! Gli elettroni gli girano attorno a grandissima distanza, come pianeti attorno al Sole.',
+        analogy: 'Una mosca (il nucleo) al centro dello stadio San Siro, e dei granelli di polvere (elettroni) che girano sugli spalti. Tutto il resto è aria vuota.',
+        flaw: '<strong>Il grande paradosso della fisica:</strong> Per le leggi dell\'elettromagnetismo, una carica che gira perde energia ed emette luce. Gli elettroni avrebbero dovuto spiraleggiare e schiantarsi sul nucleo in un millisecondo! La materia sarebbe dovuta collassare istantaneamente.',
+        hasInteraction: false
+      },
+      bohr: {
+        year: '1913',
+        title: 'Modello di Bohr ("Orbite Quantizzate")',
+        subtitle: 'I gradini di energia fissi e i salti di luce',
+        desc: 'Niels Bohr salva l\'atomo: gli elettroni non possono stare dove vogliono, ma solo su <strong>orbite precise (livelli energetici)</strong>, senza perdere energia. Se gli dai energia, saltano su un livello superiore; quando ricadono, sputano fuori un lampo di luce (fotone)!',
+        analogy: 'Una scala a pioli: puoi mettere i piedi solo sul primo, secondo o terzo piolo. Non puoi mai restare sospeso a mezz\'aria a metà tra due pioli!',
+        flaw: '<strong>Perché è stato perfezionato?</strong> Funzionava benissimo solo per l\'atomo semplice di Idrogeno. Negli atomi con tanti elettroni, le traiettorie circolari fisse si rivelarono un\'illusione.',
+        hasInteraction: true,
+        actionText: 'Dai Energia! (Salto Quantico)'
+      },
+      moderno: {
+        year: 'Oggi (Meccanica Quantistica)',
+        title: 'Modello ad Orbitali ("Nube Elettronica")',
+        subtitle: 'Heisenberg, Schrödinger e la probabilità',
+        desc: 'Oggi sappiamo che non possiamo sapere esattamente dove si trova un elettrone e dove sta andando allo stesso tempo (Principio di Indeterminazione). L\'elettrone si comporta sia come particella sia come onda: è una <strong>nube di probabilità</strong> chiamata <em>orbitale</em>.',
+        analogy: 'Le pale di un ventilatore acceso alla massima velocità: non vedi la singola pala ferma, ma una nube sfocata dove le pale potrebbero trovarsi in ogni istante.',
+        flaw: '<strong>È il modello attuale più preciso!</strong> Ci permette di costruire i transistor dei nostri smartphone, i laser e i computer moderni.',
+        hasInteraction: false
+      }
+    };
+
+    function resizeCanvases() {
+      // Set display sizes for high DPI displays
+      const dpr = window.devicePixelRatio || 1;
+      
+      [atomCanvas, currentCanvas].forEach(cnv => {
+        if (!cnv) return;
+        const rect = cnv.getBoundingClientRect();
+        cnv.width = Math.floor(rect.width * dpr);
+        cnv.height = Math.floor(rect.height * dpr);
+      });
+    }
+    window.addEventListener('resize', resizeCanvases);
+
+    // Track mouse on atom canvas for interactive repulsion/effects
+    atomCanvas.addEventListener('mousemove', (e) => {
+      const rect = atomCanvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    });
+    atomCanvas.addEventListener('mouseleave', () => {
+      mouse.active = false;
+    });
+
+    // Thomson model particles state
+    const thomsonElectrons = [];
+    for (let i = 0; i < 18; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * 95;
+      thomsonElectrons.push({
+        x: Math.cos(angle) * dist,
+        y: Math.sin(angle) * dist,
+        baseAngle: angle,
+        baseDist: dist,
+        jitterSpeed: 0.02 + Math.random() * 0.03,
+        jitterOffset: Math.random() * 100
+      });
+    }
+
+    // Rutherford model planets
+    const rutherfordOrbits = [
+      { radiusX: 130, radiusY: 45, angleTilt: -0.6, speed: 0.035, currentAngle: 0 },
+      { radiusX: 140, radiusY: 40, angleTilt: 0.8, speed: -0.028, currentAngle: 1.5 },
+      { radiusX: 120, radiusY: 50, angleTilt: 0.1, speed: 0.042, currentAngle: 3.1 },
+      { radiusX: 135, radiusY: 42, angleTilt: -1.2, speed: -0.031, currentAngle: 4.5 }
+    ];
+
+    // Bohr model state
+    let bohrElectronLevel = 1; // 1 = ground, 2 = excited, 3 = high excited
+    let bohrCurrentRadius = 55;
+    let bohrTargetRadius = 55;
+    let bohrAngle = 0;
+    let bohrPhotons = []; // emitted photon wave packets
+
+    function triggerModelInteraction() {
+      if (activeModel === 'bohr') {
+        // Quantum leap!
+        if (bohrElectronLevel === 1) {
+          bohrElectronLevel = 3;
+          bohrTargetRadius = 140;
+          flashScreen();
+        } else {
+          // Drops down and releases a photon wave!
+          const oldLevel = bohrElectronLevel;
+          bohrElectronLevel = 1;
+          bohrTargetRadius = 55;
+          // Spawn photon
+          const dpr = window.devicePixelRatio || 1;
+          const cx = atomCanvas.width / (2 * dpr);
+          const cy = atomCanvas.height / (2 * dpr);
+          const ex = cx + Math.cos(bohrAngle) * bohrCurrentRadius;
+          const ey = cy + Math.sin(bohrAngle) * bohrCurrentRadius;
+          bohrPhotons.push({
+            x: ex,
+            y: ey,
+            vx: Math.cos(bohrAngle + 0.5) * 4.5,
+            vy: Math.sin(bohrAngle + 0.5) * 4.5,
+            phase: 0,
+            age: 0,
+            color: '#f59e0b'
+          });
+          flashScreen();
+        }
+      }
+    }
+
+    function flashScreen() {
+      const flash = document.getElementById('quantumFlash');
+      if (flash) {
+        flash.style.opacity = '1';
+        setTimeout(() => { flash.style.opacity = '0'; }, 250);
+      }
+    }
+
+    // Modern quantum cloud dots
+    const quantumDots = [];
+    for (let i = 0; i < 700; i++) {
+      // Gaussian distribution for electron orbital probability
+      const u = Math.random();
+      const v = Math.random();
+      const r = Math.sqrt(-2.0 * Math.log(u || 0.0001)) * 48;
+      const theta = v * Math.PI * 2;
+      quantumDots.push({
+        dist: r,
+        angle: theta,
+        size: Math.random() * 1.8 + 0.8,
+        pulseSpeed: 0.02 + Math.random() * 0.03,
+        alphaBase: Math.max(0.1, 1 - r / 150)
+      });
+    }
+
+    let frameCount = 0;
+    function renderAtomCanvas() {
+      if (currentMainTab !== 'atomo') {
+        atomAnimationId = requestAnimationFrame(renderAtomCanvas);
+        return;
+      }
+
+      const dpr = window.devicePixelRatio || 1;
+      const w = atomCanvas.width / dpr;
+      const h = atomCanvas.height / dpr;
+      const cx = w / 2;
+      const cy = h / 2;
+
+      atomCtx.save();
+      atomCtx.scale(dpr, dpr);
+      atomCtx.clearRect(0, 0, w, h);
+
+      // Background subtle grid
+      atomCtx.strokeStyle = 'rgba(30, 41, 75, 0.4)';
+      atomCtx.lineWidth = 1;
+      for (let x = 0; x < w; x += 40) {
+        atomCtx.beginPath();
+        atomCtx.moveTo(x, 0);
+        atomCtx.lineTo(x, h);
+        atomCtx.stroke();
+      }
+      for (let y = 0; y < h; y += 40) {
+        atomCtx.beginPath();
+        atomCtx.moveTo(0, y);
+        atomCtx.lineTo(w, y);
+        atomCtx.stroke();
+      }
+
+      frameCount++;
+
+      // 1. DALTON MODEL
+      if (activeModel === 'dalton') {
+        const sphereRadius = 90;
+        
+        // Gradient billiard sphere
+        const grad = atomCtx.createRadialGradient(cx - 30, cy - 30, 10, cx, cy, sphereRadius);
+        grad.addColorStop(0, '#94a3b8');
+        grad.addColorStop(0.4, '#475569');
+        grad.addColorStop(1, '#0f172a');
+
+        atomCtx.beginPath();
+        atomCtx.arc(cx, cy, sphereRadius, 0, Math.PI * 2);
+        atomCtx.fillStyle = grad;
+        atomCtx.shadowColor = 'rgba(148, 163, 184, 0.4)';
+        atomCtx.shadowBlur = 20;
+        atomCtx.fill();
+        atomCtx.shadowBlur = 0;
+
+        // Label
+        atomCtx.fillStyle = '#e2e8f0';
+        atomCtx.font = 'bold 13px Inter';
+        atomCtx.textAlign = 'center';
+        atomCtx.fillText('Sfera piena e indivisibile', cx, cy + sphereRadius + 30);
+      }
+
+      // 2. THOMSON MODEL
+      else if (activeModel === 'thomson') {
+        const puddingRadius = 120;
+        
+        // Positive background cloud (the "panettone" dough)
+        const grad = atomCtx.createRadialGradient(cx, cy, 20, cx, cy, puddingRadius);
+        grad.addColorStop(0, 'rgba(239, 68, 68, 0.45)');
+        grad.addColorStop(0.8, 'rgba(220, 38, 38, 0.25)');
+        grad.addColorStop(1, 'rgba(185, 28, 28, 0.05)');
+
+        atomCtx.beginPath();
+        atomCtx.arc(cx, cy, puddingRadius, 0, Math.PI * 2);
+        atomCtx.fillStyle = grad;
+        atomCtx.fill();
+        atomCtx.strokeStyle = 'rgba(239, 68, 68, 0.5)';
+        atomCtx.setLineDash([4, 4]);
+        atomCtx.stroke();
+        atomCtx.setLineDash([]);
+
+        // Plus signs in the dough
+        atomCtx.fillStyle = 'rgba(248, 113, 113, 0.4)';
+        atomCtx.font = 'bold 20px Inter';
+        atomCtx.textAlign = 'center';
+        atomCtx.textBaseline = 'middle';
+        atomCtx.fillText('+', cx - 60, cy - 50);
+        atomCtx.fillText('+', cx + 70, cy - 30);
+        atomCtx.fillText('+', cx - 40, cy + 60);
+        atomCtx.fillText('+', cx + 50, cy + 50);
+        atomCtx.fillText('+ Carica Positiva Diffusa', cx, cy - puddingRadius - 15);
+
+        // Embedded negative electrons
+        thomsonElectrons.forEach(el => {
+          const wobble = Math.sin(frameCount * el.jitterSpeed + el.jitterOffset) * 4;
+          const ex = cx + Math.cos(el.baseAngle) * (el.baseDist + wobble);
+          const ey = cy + Math.sin(el.baseAngle) * (el.baseDist + wobble);
+
+          // Electron glow
+          atomCtx.beginPath();
+          atomCtx.arc(ex, ey, 7, 0, Math.PI * 2);
+          atomCtx.fillStyle = '#38bdf8';
+          atomCtx.shadowColor = '#38bdf8';
+          atomCtx.shadowBlur = 10;
+          atomCtx.fill();
+          atomCtx.shadowBlur = 0;
+
+          // Minus sign
+          atomCtx.fillStyle = '#0b1120';
+          atomCtx.font = 'bold 11px Inter';
+          atomCtx.fillText('-', ex, ey);
+        });
+      }
+
+      // 3. RUTHERFORD MODEL
+      else if (activeModel === 'rutherford') {
+        // Tiny dense nucleus in the center
+        const nucleusGrad = atomCtx.createRadialGradient(cx, cy, 2, cx, cy, 14);
+        nucleusGrad.addColorStop(0, '#fef08a');
+        nucleusGrad.addColorStop(0.5, '#ef4444');
+        nucleusGrad.addColorStop(1, '#991b1b');
+
+        atomCtx.beginPath();
+        atomCtx.arc(cx, cy, 14, 0, Math.PI * 2);
+        atomCtx.fillStyle = nucleusGrad;
+        atomCtx.shadowColor = '#ef4444';
+        atomCtx.shadowBlur = 15;
+        atomCtx.fill();
+        atomCtx.shadowBlur = 0;
+
+        atomCtx.fillStyle = '#ffffff';
+        atomCtx.font = 'bold 9px Inter';
+        atomCtx.textAlign = 'center';
+        atomCtx.textBaseline = 'middle';
+        atomCtx.fillText('+', cx, cy);
+
+        atomCtx.fillStyle = '#f87171';
+        atomCtx.font = '11px Inter';
+        atomCtx.fillText('Nucleo Positivo (Compatto)', cx, cy + 28);
+
+        // Tilted planetary orbits
+        rutherfordOrbits.forEach((orbit, index) => {
+          orbit.currentAngle += orbit.speed;
+
+          atomCtx.save();
+          atomCtx.translate(cx, cy);
+          atomCtx.rotate(orbit.angleTilt);
+
+          // Orbit trajectory ellipse
+          atomCtx.beginPath();
+          atomCtx.ellipse(0, 0, orbit.radiusX, orbit.radiusY, 0, 0, Math.PI * 2);
+          atomCtx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+          atomCtx.lineWidth = 1.2;
+          atomCtx.stroke();
+
+          // Electron
+          const ex = Math.cos(orbit.currentAngle) * orbit.radiusX;
+          const ey = Math.sin(orbit.currentAngle) * orbit.radiusY;
+
+          atomCtx.beginPath();
+          atomCtx.arc(ex, ey, 5, 0, Math.PI * 2);
+          atomCtx.fillStyle = '#00f0ff';
+          atomCtx.shadowColor = '#00f0ff';
+          atomCtx.shadowBlur = 12;
+          atomCtx.fill();
+          atomCtx.shadowBlur = 0;
+
+          atomCtx.restore();
+        });
+
+        // Giant empty space indicator
+        atomCtx.strokeStyle = 'rgba(148, 163, 184, 0.2)';
+        atomCtx.setLineDash([3, 3]);
+        atomCtx.beginPath();
+        atomCtx.arc(cx, cy, 150, 0, Math.PI * 2);
+        atomCtx.stroke();
+        atomCtx.setLineDash([]);
+        atomCtx.fillStyle = '#64748b';
+        atomCtx.font = 'italic 11px Inter';
+        atomCtx.fillText('99.9% di spazio VUOTO tra nucleo ed elettroni', cx, cy - 135);
+      }
+
+      // 4. BOHR MODEL
+      else if (activeModel === 'bohr') {
+        const orbitRadii = [55, 95, 140];
+
+        // Central nucleus
+        atomCtx.beginPath();
+        atomCtx.arc(cx, cy, 13, 0, Math.PI * 2);
+        atomCtx.fillStyle = '#ef4444';
+        atomCtx.shadowColor = '#ef4444';
+        atomCtx.shadowBlur = 12;
+        atomCtx.fill();
+        atomCtx.shadowBlur = 0;
+        atomCtx.fillStyle = '#ffffff';
+        atomCtx.font = 'bold 9px Inter';
+        atomCtx.textAlign = 'center';
+        atomCtx.textBaseline = 'middle';
+        atomCtx.fillText('+ Nucleo', cx, cy);
+
+        // Fixed quantized rings (pioli della scala)
+        orbitRadii.forEach((r, idx) => {
+          atomCtx.beginPath();
+          atomCtx.arc(cx, cy, r, 0, Math.PI * 2);
+          atomCtx.strokeStyle = (idx + 1 === bohrElectronLevel) ? 'rgba(56, 189, 248, 0.7)' : 'rgba(71, 85, 105, 0.4)';
+          atomCtx.lineWidth = (idx + 1 === bohrElectronLevel) ? 2 : 1;
+          atomCtx.setLineDash([5, 4]);
+          atomCtx.stroke();
+          atomCtx.setLineDash([]);
+
+          atomCtx.fillStyle = '#64748b';
+          atomCtx.font = '10px Inter';
+          atomCtx.fillText(`Livello n=${idx + 1}`, cx + r - 15, cy - 8);
+        });
+
+        // Smooth transition of electron radius during jumps
+        bohrCurrentRadius += (bohrTargetRadius - bohrCurrentRadius) * 0.12;
+        bohrAngle += 0.04;
+
+        const ex = cx + Math.cos(bohrAngle) * bohrCurrentRadius;
+        const ey = cy + Math.sin(bohrAngle) * bohrCurrentRadius;
+
+        // Draw active electron
+        atomCtx.beginPath();
+        atomCtx.arc(ex, ey, 7, 0, Math.PI * 2);
+        atomCtx.fillStyle = '#38bdf8';
+        atomCtx.shadowColor = '#38bdf8';
+        atomCtx.shadowBlur = 15;
+        atomCtx.fill();
+        atomCtx.shadowBlur = 0;
+
+        atomCtx.fillStyle = '#0f172a';
+        atomCtx.font = 'bold 9px Inter';
+        atomCtx.fillText('e-', ex, ey);
+
+        // Update and render emitted photons
+        for (let i = bohrPhotons.length - 1; i >= 0; i--) {
+          const p = bohrPhotons[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.phase += 0.4;
+          p.age++;
+
+          // Draw wave packet
+          atomCtx.save();
+          atomCtx.strokeStyle = p.color;
+          atomCtx.lineWidth = 2.5;
+          atomCtx.beginPath();
+          const waveLen = 25;
+          for (let s = -waveLen; s <= waveLen; s += 2) {
+            const waveY = Math.sin(s * 0.35 + p.phase) * 6;
+            if (s === -waveLen) atomCtx.moveTo(p.x + s, p.y + waveY);
+            else atomCtx.lineTo(p.x + s, p.y + waveY);
+          }
+          atomCtx.stroke();
+
+          atomCtx.fillStyle = '#fde047';
+          atomCtx.font = 'bold 10px Inter';
+          atomCtx.fillText('Luce (Fotone)!', p.x, p.y - 12);
+          atomCtx.restore();
+
+          if (p.age > 70) bohrPhotons.splice(i, 1);
+        }
+
+        // Explanatory hint
+        atomCtx.fillStyle = '#94a3b8';
+        atomCtx.font = '11px Inter';
+        atomCtx.textAlign = 'center';
+        atomCtx.fillText('Usa il pulsante in alto "Dai Energia!" per vedere il salto quantico', cx, h - 20);
+      }
+
+      // 5. MODERN QUANTUM CLOUD MODEL
+      else if (activeModel === 'moderno') {
+        // Nucleus
+        atomCtx.beginPath();
+        atomCtx.arc(cx, cy, 6, 0, Math.PI * 2);
+        atomCtx.fillStyle = '#ef4444';
+        atomCtx.shadowColor = '#ef4444';
+        atomCtx.shadowBlur = 8;
+        atomCtx.fill();
+        atomCtx.shadowBlur = 0;
+
+        // Render dots representing probability density |ψ|²
+        quantumDots.forEach(dot => {
+          const currentA = dot.angle + frameCount * 0.003;
+          const wobble = Math.sin(frameCount * dot.pulseSpeed) * 8;
+          const px = cx + Math.cos(currentA) * (dot.dist + wobble);
+          const py = cy + Math.sin(currentA) * (dot.dist + wobble);
+
+          atomCtx.fillStyle = `rgba(56, 189, 248, ${dot.alphaBase})`;
+          atomCtx.beginPath();
+          atomCtx.arc(px, py, dot.size, 0, Math.PI * 2);
+          atomCtx.fill();
+        });
+
+        atomCtx.fillStyle = '#e2e8f0';
+        atomCtx.font = 'bold 12px Inter';
+        atomCtx.textAlign = 'center';
+        atomCtx.fillText('Orbitale 1s: più è denso il colore, più è probabile trovare l\'elettrone', cx, h - 25);
+      }
+
+      atomCtx.restore();
+      atomAnimationId = requestAnimationFrame(renderAtomCanvas);
+    }
+
+    // Circuit State
+    let circuitState = {
+      isClosed: false,
+      voltage: 0,
+      temperature: 25, // °C
+      driftVelocity: 0
+    };
+
+    // Copper lattice ions (Cu+)
+    const copperIons = [];
+    const NUM_ROWS = 4;
+    const NUM_COLS = 8;
+
+    // Free electrons in the copper wire
+    const freeElectrons = [];
+    const NUM_FREE_ELECTRONS = 55;
+
+    function initWireSimulator() {
+      copperIons.length = 0;
+      freeElectrons.length = 0;
+
+      // Lattice will be placed proportionally on render
+      for (let r = 0; r < NUM_ROWS; r++) {
+        for (let c = 0; c < NUM_COLS; c++) {
+          copperIons.push({
+            row: r,
+            col: c,
+            jitterX: 0,
+            jitterY: 0
+          });
+        }
+      }
+
+      for (let i = 0; i < NUM_FREE_ELECTRONS; i++) {
+        freeElectrons.push({
+          x: Math.random() * 800,
+          y: Math.random() * 300,
+          vx: (Math.random() - 0.5) * 3,
+          vy: (Math.random() - 0.5) * 3,
+          radius: 4.5
+        });
+      }
+    }
+
+    function toggleSwitchState() {
+      circuitState.isClosed = !circuitState.isClosed;
+      const btn = document.getElementById('btnMainSwitchLabel');
+      const slider = document.getElementById('voltageSlider');
+      
+      if (circuitState.isClosed) {
+        if (circuitState.voltage === 0) {
+          circuitState.voltage = 12; // default 12V
+          slider.value = 12;
+        }
+        btn.textContent = 'APRI IL CIRCUITO (OFF)';
+      } else {
+        circuitState.voltage = 0;
+        slider.value = 0;
+        btn.textContent = 'CHIUDI IL CIRCUITO (ON)';
+      }
+      syncVoltageUI();
+    }
+
+    function updateVoltageFromSlider(val) {
+      circuitState.voltage = parseFloat(val);
+      circuitState.isClosed = circuitState.voltage > 0;
+      const btn = document.getElementById('btnMainSwitchLabel');
+      btn.textContent = circuitState.isClosed ? 'APRI IL CIRCUITO (OFF)' : 'CHIUDI IL CIRCUITO (ON)';
+      syncVoltageUI();
+    }
+
+    function updateThermalAgitation(val) {
+      circuitState.temperature = parseFloat(val);
+      document.getElementById('tempValueText').textContent = `${circuitState.temperature}°C`;
+    }
+
+    function syncVoltageUI() {
+      const vText = document.getElementById('voltageDisplay');
+      const sText = document.getElementById('sliderValueText');
+      const lamp = document.getElementById('virtualLamp');
+      const lampIcon = document.getElementById('virtualLampIcon');
+      const lampText = document.getElementById('virtualLampText');
+      const flow = document.getElementById('flowIndicator');
+
+      vText.textContent = `${circuitState.voltage.toFixed(1)} Volt (${circuitState.isClosed ? 'Chiuso' : 'Aperto'})`;
+      sText.textContent = `${circuitState.voltage} V`;
+
+      // Lamp visualization
+      if (circuitState.voltage > 0) {
+        const brightness = Math.min(1, circuitState.voltage / 24);
+        lamp.style.backgroundColor = `rgba(245, 158, 11, ${0.2 + brightness * 0.8})`;
+        lamp.style.boxShadow = `0 0 ${20 + brightness * 40}px rgba(245, 158, 11, ${brightness})`;
+        lampIcon.className = 'fa-solid fa-lightbulb text-2xl md:text-3xl text-amber-300';
+        lampText.textContent = `Accesa (${Math.round(brightness * 100)}%)`;
+        lampText.className = 'text-[10px] font-bold uppercase tracking-wider text-amber-300 mt-1';
+        flow.style.opacity = '1';
+      } else {
+        lamp.style.backgroundColor = '#1e293b';
+        lamp.style.boxShadow = 'none';
+        lampIcon.className = 'fa-solid fa-lightbulb text-2xl md:text-3xl text-slate-600';
+        lampText.textContent = 'Spenta';
+        lampText.className = 'text-[10px] font-bold uppercase tracking-wider text-slate-500 mt-1';
+        flow.style.opacity = '0';
+      }
+    }
+
+    function renderCurrentCanvas() {
+      if (currentMainTab !== 'corrente') {
+        currentAnimationId = requestAnimationFrame(renderCurrentCanvas);
+        return;
+      }
+
+      const dpr = window.devicePixelRatio || 1;
+      const w = currentCanvas.width / dpr;
+      const h = currentCanvas.height / dpr;
+
+      currentCtx.save();
+      currentCtx.scale(dpr, dpr);
+      currentCtx.clearRect(0, 0, w, h);
+
+      // Draw Copper Wire Body (Tube)
+      const wireTop = 30;
+      const wireBottom = h - 30;
+      const wireHeight = wireBottom - wireTop;
+
+      // Copper pipe gradient
+      const pipeGrad = currentCtx.createLinearGradient(0, wireTop, 0, wireBottom);
+      pipeGrad.addColorStop(0, '#7c2d12');
+      pipeGrad.addColorStop(0.2, '#ea580c');
+      pipeGrad.addColorStop(0.5, '#431407');
+      pipeGrad.addColorStop(0.8, '#c2410c');
+      pipeGrad.addColorStop(1, '#7c2d12');
+
+      currentCtx.fillStyle = 'rgba(67, 20, 7, 0.4)';
+      currentCtx.fillRect(0, wireTop, w, wireHeight);
+
+      // Wire border lines
+      currentCtx.strokeStyle = '#f97316';
+      currentCtx.lineWidth = 3;
+      currentCtx.beginPath();
+      currentCtx.moveTo(0, wireTop);
+      currentCtx.lineTo(w, wireTop);
+      currentCtx.moveTo(0, wireBottom);
+      currentCtx.lineTo(w, wireBottom);
+      currentCtx.stroke();
+
+      // Battery Pole markers at ends
+      currentCtx.fillStyle = circuitState.voltage > 0 ? '#38bdf8' : '#475569';
+      currentCtx.font = 'bold 12px Inter';
+      currentCtx.textAlign = 'left';
+      currentCtx.fillText('[-] POLO NEGATIVO (Inietta elettroni)', 15, wireTop - 10);
+      currentCtx.textAlign = 'right';
+      currentCtx.fillStyle = circuitState.voltage > 0 ? '#ef4444' : '#475569';
+      currentCtx.fillText('[+] POLO POSITIVO (Attira)', w - 15, wireTop - 10);
+
+      // Thermal agitation factor
+      const thermalEnergy = (circuitState.temperature / 100) * 2.5;
+
+      // 1. Draw Fixed Copper Nuclei (Cu+ ions with valence shell lost)
+      const colStep = w / (NUM_COLS + 1);
+      const rowStep = wireHeight / (NUM_ROWS + 1);
+
+      copperIons.forEach(ion => {
+        const baseX = colStep * (ion.col + 1);
+        const baseY = wireTop + rowStep * (ion.row + 1);
+
+        // Thermal oscillation around their crystal lattice spot
+        ion.jitterX = (Math.random() - 0.5) * thermalEnergy * 2.2;
+        ion.jitterY = (Math.random() - 0.5) * thermalEnergy * 2.2;
+
+        const ix = baseX + ion.jitterX;
+        const iy = baseY + ion.jitterY;
+
+        // Ion core
+        currentCtx.beginPath();
+        currentCtx.arc(ix, iy, 14, 0, Math.PI * 2);
+        currentCtx.fillStyle = '#b45309';
+        currentCtx.shadowColor = '#f97316';
+        currentCtx.shadowBlur = 4;
+        currentCtx.fill();
+        currentCtx.shadowBlur = 0;
+
+        currentCtx.fillStyle = '#ffedd5';
+        currentCtx.font = 'bold 10px Inter';
+        currentCtx.textAlign = 'center';
+        currentCtx.textBaseline = 'middle';
+        currentCtx.fillText('Cu⁺', ix, iy);
+      });
+
+      // 2. Free Valence Electrons (Il Mare di Fermi / Elettroni Liberi)
+      const driftSpeed = circuitState.voltage * 0.28; // Net drift velocity to the right
+
+      freeElectrons.forEach(e => {
+        // Random thermal bounce
+        e.vx += (Math.random() - 0.5) * thermalEnergy;
+        e.vy += (Math.random() - 0.5) * thermalEnergy;
+
+        // Friction / drag
+        e.vx *= 0.88;
+        e.vy *= 0.88;
+
+        // Apply Electric Field Push (Tensione)
+        e.x += e.vx + driftSpeed;
+        e.y += e.vy;
+
+        // Boundary collisions with the pipe walls
+        if (e.y < wireTop + 8) {
+          e.y = wireTop + 8;
+          e.vy = Math.abs(e.vy);
+        }
+        if (e.y > wireBottom - 8) {
+          e.y = wireBottom - 8;
+          e.vy = -Math.abs(e.vy);
+        }
+
+        // Loop wire horizontally (electrons exiting right re-enter left from negative terminal)
+        if (e.x > w) {
+          e.x = 0;
+          e.y = wireTop + 10 + Math.random() * (wireHeight - 20);
+        }
+        if (e.x < 0) {
+          e.x = w;
+        }
+
+        // Render Electron
+        currentCtx.beginPath();
+        currentCtx.arc(e.x, e.y, e.radius, 0, Math.PI * 2);
+        currentCtx.fillStyle = '#00f0ff';
+        currentCtx.shadowColor = '#00f0ff';
+        currentCtx.shadowBlur = 8;
+        currentCtx.fill();
+        currentCtx.shadowBlur = 0;
+
+        // Minus sign on electron
+        currentCtx.fillStyle = '#042f2e';
+        currentCtx.font = 'bold 8px Inter';
+        currentCtx.textAlign = 'center';
+        currentCtx.textBaseline = 'middle';
+        currentCtx.fillText('-', e.x, e.y);
+      });
+
+      currentCtx.restore();
+      currentAnimationId = requestAnimationFrame(renderCurrentCanvas);
+    }
+
+    function switchMainTab(tab) {
+      currentMainTab = tab;
+
+      const tabAtomo = document.getElementById('tabAtomo');
+      const tabCorrente = document.getElementById('tabCorrente');
+      const tabQuiz = document.getElementById('tabQuiz');
+
+      const btnA = document.getElementById('navBtnAtomo');
+      const btnC = document.getElementById('navBtnCorrente');
+      const btnQ = document.getElementById('navBtnQuiz');
+
+      // Hide all
+      tabAtomo.classList.add('hidden');
+      tabCorrente.classList.add('hidden');
+      tabQuiz.classList.add('hidden');
+
+      // Reset button styles
+      [btnA, btnC, btnQ].forEach(btn => {
+        btn.className = 'px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all flex items-center gap-2';
+      });
+
+      if (tab === 'atomo') {
+        tabAtomo.classList.remove('hidden');
+        btnA.className = 'px-3.5 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold transition-all shadow-sm flex items-center gap-2';
+      } else if (tab === 'corrente') {
+        tabCorrente.classList.remove('hidden');
+        btnC.className = 'px-3.5 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold transition-all shadow-sm flex items-center gap-2';
+      } else if (tab === 'quiz') {
+        tabQuiz.classList.remove('hidden');
+        btnQ.className = 'px-3.5 py-1.5 rounded-lg bg-purple-500 text-slate-950 font-bold transition-all shadow-sm flex items-center gap-2';
+      }
+
+      resizeCanvases();
+    }
+
+    function selectModel(modelKey) {
+      activeModel = modelKey;
+      const data = MODELS[modelKey];
+      if (!data) return;
+
+      // Update active button state
+      document.querySelectorAll('.model-tab-btn').forEach(b => {
+        b.className = 'model-tab-btn p-3 rounded-xl border border-slate-700 bg-lab-800/80 hover:bg-slate-700/50 text-left transition-all';
+      });
+      const activeBtn = document.getElementById(`btnModel-${modelKey}`);
+      if (activeBtn) {
+        activeBtn.className = 'model-tab-btn p-3 rounded-xl border border-cyan-500 bg-cyan-950/40 text-left transition-all shadow-lg shadow-cyan-950';
+      }
+
+      // Update text details card
+      document.getElementById('canvasBadgeYear').textContent = data.year;
+      document.getElementById('canvasModelTitle').textContent = data.title;
+      document.getElementById('cardModelSubtitle').textContent = data.subtitle;
+      document.getElementById('cardModelDesc').innerHTML = data.desc;
+      document.getElementById('cardModelAnalogy').innerHTML = data.analogy;
+      document.getElementById('cardModelFlaw').innerHTML = data.flaw;
+
+      // Interactive Action button
+      const actBtn = document.getElementById('modelActionBtn');
+      if (data.hasInteraction) {
+        actBtn.classList.remove('hidden');
+        document.getElementById('modelActionText').textContent = data.actionText;
+      } else {
+        actBtn.classList.add('hidden');
+      }
+    }
+
+    const modelOrder = ['dalton', 'thomson', 'rutherford', 'bohr', 'moderno'];
+    function goToNextModel() {
+      const idx = modelOrder.indexOf(activeModel);
+      const nextKey = modelOrder[(idx + 1) % modelOrder.length];
+      selectModel(nextKey);
+    }
+
+    const QUIZ_QUESTIONS = [
+      {
+        question: "1. Quale particella subatomica viaggia lungo il cavo di rame quando c'è corrente elettrica?",
+        options: [
+          { text: "I protoni (+) perché hanno carica positiva", correct: false, explain: "No! I protoni sono pesanti e bloccati per sempre nel nucleo." },
+          { text: "Gli elettroni liberi (-)", correct: true, explain: "Esatto! Sono leggeri e liberi di muoversi tra gli atomi del metallo." },
+          { text: "I neutroni", correct: false, explain: "No, i neutroni non hanno carica elettrica e stanno nel nucleo." }
+        ]
+      },
+      {
+        question: "2. Perché il modello di Rutherford ('sistema planetario') non poteva funzionare secondo la fisica classica?",
+        options: [
+          { text: "Perché gli elettroni girando avrebbero perso energia schiantandosi sul nucleo", correct: true, explain: "Bravissimo! Una carica elettrica che curva irradia energia e l'atomo sarebbe dovuto collassare in un lampo." },
+          { text: "Perché l'atomo secondo lui era solido come un panettone", correct: false, explain: "No, quello era il modello di Thomson!" },
+          { text: "Perché nel nucleo non c'era spazio per i neutroni", correct: false, explain: "No, il problema principale era la stabilità dell'orbita degli elettroni." }
+        ]
+      },
+      {
+        question: "3. Se stacchi la batteria da un filo di rame (Tensione = 0 Volt), cosa fanno gli elettroni dentro il filo?",
+        options: [
+          { text: "Si fermano completamente congelati a 0 km/h", correct: false, explain: "Falso! A temperatura ambiente si muovono continuamente a causa del calore (agitazione termica)." },
+          { text: "Continuano a muoversi a caso in tutte le direzioni, senza una direzione comune", correct: true, explain: "Perfetto! Si muovono caoticamente, quindi il flusso netto di corrente è zero!" },
+          { text: "Escono subito fuori dal filo e cadono a terra", correct: false, explain: "No, rimangono attratti dagli ioni positivi del reticolo metallico." }
+        ]
+      },
+      {
+        question: "4. Secondo il modello di Bohr, cosa succede quando un elettrone salta da un livello alto a uno più basso?",
+        options: [
+          { text: "L'atomo esplode", correct: false, explain: "Assolutamente no, è un processo naturale continuo." },
+          { text: "L'elettrone diventa un protone", correct: false, explain: "No, la carica dell'elettrone non cambia mai." },
+          { text: "Emette l'energia sotto forma di un lampo di luce (fotone)", correct: true, explain: "Esatto! È il principio con cui funzionano le lampade a neon e i LED in officina!" }
+        ]
+      }
+    ];
+
+    let userAnswers = {};
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = '';
+
+      QUIZ_QUESTIONS.forEach((q, qIndex) => {
+        const card = document.createElement('div');
+        card.className = 'bg-lab-800 border border-slate-700/80 rounded-2xl p-4 md:p-5 space-y-3';
+
+        const qTitle = document.createElement('h3');
+        qTitle.className = 'font-heading font-bold text-sm md:text-base text-white';
+        qTitle.textContent = q.question;
+        card.appendChild(qTitle);
+
+        const optionsDiv = document.createElement('div');
+        optionsDiv.className = 'space-y-2';
+
+        q.options.forEach((opt, optIndex) => {
+          const btn = document.createElement('button');
+          btn.id = `q_${qIndex}_opt_${optIndex}`;
+          btn.className = 'w-full text-left p-3 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/40 text-xs md:text-sm text-slate-200 transition-all flex items-start gap-2.5';
+          btn.innerHTML = `<span class="w-5 h-5 rounded-md bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs shrink-0">${['A', 'B', 'C'][optIndex]}</span><span>${opt.text}</span>`;
+          
+          btn.onclick = () => handleAnswer(qIndex, optIndex);
+          optionsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optionsDiv);
+
+        const feedbackDiv = document.createElement('div');
+        feedbackDiv.id = `feedback_${qIndex}`;
+        feedbackDiv.className = 'hidden text-xs p-3 rounded-xl mt-2';
+        card.appendChild(feedbackDiv);
+
+        container.appendChild(card);
+      });
+    }
+
+    function handleAnswer(qIdx, optIdx) {
+      if (userAnswers[qIdx] !== undefined) return; // already answered
+      userAnswers[qIdx] = optIdx;
+
+      const q = QUIZ_QUESTIONS[qIdx];
+      const opt = q.options[optIdx];
+      const feedbackDiv = document.getElementById(`feedback_${qIdx}`);
+      const chosenBtn = document.getElementById(`q_${qIdx}_opt_${optIdx}`);
+
+      feedbackDiv.classList.remove('hidden');
+
+      if (opt.correct) {
+        chosenBtn.className = 'w-full text-left p-3 rounded-xl border border-emerald-500 bg-emerald-950/40 text-xs md:text-sm text-emerald-200 flex items-start gap-2.5';
+        feedbackDiv.className = 'text-xs p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/50 text-emerald-300 font-medium';
+        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5 text-emerald-400"></i> ${opt.explain}`;
+      } else {
+        chosenBtn.className = 'w-full text-left p-3 rounded-xl border border-red-500 bg-red-950/40 text-xs md:text-sm text-red-200 flex items-start gap-2.5';
+        feedbackDiv.className = 'text-xs p-3 rounded-xl bg-red-950/60 border border-red-500/50 text-red-300 font-medium';
+        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1.5 text-red-400"></i> ${opt.explain}`;
+      }
+
+      // Update score badge
+      let score = 0;
+      Object.keys(userAnswers).forEach(key => {
+        const k = parseInt(key);
+        if (QUIZ_QUESTIONS[k].options[userAnswers[k]].correct) score++;
+      });
+      document.getElementById('quizScoreText').textContent = `Punteggio: ${score} / ${QUIZ_QUESTIONS.length}`;
+    }
+
+    function resetQuiz() {
+      userAnswers = {};
+      renderQuiz();
+      document.getElementById('quizScoreText').textContent = `Punteggio: 0 / ${QUIZ_QUESTIONS.length}`;
+    }
+
+    window.onload = function() {
+      resizeCanvases();
+      initWireSimulator();
+      selectModel('thomson'); // start with Thomson as requested
+      renderQuiz();
+
+      // Launch animation loops
+      renderAtomCanvas();
+      renderCurrentCanvas();
+    };
+  </script>
+</body>
+</html>
