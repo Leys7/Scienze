@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energie Alternative e Carburanti del Futuro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar for the sidebar */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <!-- Header/Sidebar -->
+    <aside class="w-full md:w-80 bg-white shadow-xl z-10 flex flex-col h-auto md:h-full flex-shrink-0">
+        <div class="p-6 bg-gradient-to-r from-teal-600 to-emerald-600 text-white">
+            <h1 class="text-2xl font-bold leading-tight">Energie Alternative</h1>
+            <p class="text-sm mt-2 opacity-90">Oltre il petrolio: guida alle fonti del futuro.</p>
+        </div>
+        
+        <!-- Navigation Buttons (scrollable) -->
+        <nav id="nav-container" class="flex-1 overflow-y-auto sidebar-scroll p-4 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-x-hidden">
+            <!-- Buttons injected by JS -->
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-6 md:p-10 bg-slate-50 relative">
+        <div id="welcome-message" class="flex flex-col items-center justify-center h-full text-center text-slate-500">
+            <svg class="w-20 h-20 mb-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h2 class="text-2xl font-semibold mb-2">Seleziona una fonte di energia</h2>
+            <p>Usa il menù per scoprire storia, vantaggi e futuro delle alternative al petrolio.</p>
+        </div>
+
+        <div id="content-container" class="hidden max-w-4xl mx-auto">
+            <h2 id="cat-title" class="text-3xl md:text-4xl font-bold text-teal-700 mb-8 border-b-2 border-teal-100 pb-4">Titolo</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Storia -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 md:col-span-2">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-3 flex items-center">
+                        <span class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">🕰️</span> Breve Storia
+                    </h3>
+                    <p id="cat-history" class="text-slate-600 leading-relaxed"></p>
+                </div>
+
+                <!-- Vantaggi -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-emerald-100">
+                    <h3 class="text-lg font-semibold text-emerald-700 mb-3 flex items-center">
+                        <span class="bg-emerald-100 text-emerald-600 p-2 rounded-lg mr-3">✅</span> Vantaggi
+                    </h3>
+                    <ul id="cat-pros" class="list-disc list-inside text-slate-600 space-y-2"></ul>
+                </div>
+
+                <!-- Svantaggi -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-red-100">
+                    <h3 class="text-lg font-semibold text-red-700 mb-3 flex items-center">
+                        <span class="bg-red-100 text-red-600 p-2 rounded-lg mr-3">⚠️</span> Svantaggi
+                    </h3>
+                    <ul id="cat-cons" class="list-disc list-inside text-slate-600 space-y-2"></ul>
+                </div>
+
+                <!-- Utilizzi Attuali -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-3 flex items-center">
+                        <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">⚙️</span> Utilizzi Attuali
+                    </h3>
+                    <p id="cat-current" class="text-slate-600 leading-relaxed"></p>
+                </div>
+
+                <!-- Prospettive per il Futuro -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-3 flex items-center">
+                        <span class="bg-amber-100 text-amber-600 p-2 rounded-lg mr-3">🚀</span> Prospettive per il Futuro
+                    </h3>
+                    <p id="cat-future" class="text-slate-600 leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Dati strutturati per ogni categoria di energia
+        const energyData = [
+            {
+                id: "etanolo",
+                name: "Etanolo",
+                icon: "🌾",
+                history: "L'uso dell'etanolo come carburante risale agli albori dell'automobile. Henry Ford progettò il famoso Modello T (1908) per funzionare a etanolo, prima che la benzina diventasse economica. È tornato in auge durante le crisi petrolifere degli anni '70, specialmente in Brasile.",
+                pros: ["Rinnovabile (prodotto da biomasse come mais o canna da zucchero).", "Combustione più pulita rispetto alla benzina (meno particolato).", "Aumenta il numero di ottani della benzina."],
+                cons: ["Competizione con la produzione alimentare (nella prima generazione).", "Minore densità energetica (consumi volumetrici superiori rispetto alla benzina).", "Può essere corrosivo per tubazioni e guarnizioni di motori non adattati."],
+                current: "Ampiamente utilizzato in Brasile puro (E100) o in alta miscela. In Europa e USA è miscelato in percentuali come E5 o E10 alla benzina tradizionale.",
+                future: "Etanolo avanzato (cellulosico) da scarti agricoli per eliminare la competizione con il settore alimentare."
+            },
+            {
+                id: "idrogeno",
+                name: "Idrogeno",
+                icon: "💧",
+                history: "Scoperto nel 1766, l'idrogeno è stato usato nei primi motori a combustione interna e nei dirigibili storici. Lo sviluppo delle celle a combustibile (Fuel Cell) ha permesso il suo uso nel programma spaziale Apollo negli anni '60.",
+                pros: ["L'unico scarto dell'uso in Fuel Cell è vapore acqueo.", "Tempi di rifornimento rapidi rispetto alle batterie elettriche (pochi minuti).", "Altissima densità energetica per unità di massa."],
+                cons: ["Difficile e costoso da stoccare (pressioni di 700 bar o temperature criogeniche).", "Attualmente prodotto per lo più da fonti fossili (Idrogeno Grigio).", "Carenza cronica di infrastrutture per la distribuzione."],
+                current: "Utilizzato in processi industriali. Nel settore trasporti su alcuni modelli di automobili (es. Toyota Mirai), autobus urbani e prototipi di treni.",
+                future: "Il futuro è l'Idrogeno Verde (da elettrolisi rinnovabile) per decarbonizzare il trasporto pesante (camion, navi, aerei) e l'industria siderurgica."
+            },
+            {
+                id: "elettrico",
+                name: "Elettrico (Batterie)",
+                icon: "🔋",
+                history: "Le prime auto di fine '800 erano spesso elettriche, soppiantate poi dai motori a scoppio. Il grande ritorno è iniziato negli anni 2000 con lo sviluppo delle batterie agli ioni di litio e pioniere come Tesla.",
+                pros: ["Zero emissioni locali di gas di scarico.", "Efficienza altissima (oltre l'80% dell'energia si converte in moto, contro il 30% del termico).", "Manutenzione meccanica drasticamente ridotta."],
+                cons: ["Tempi di ricarica ancora relativamente lunghi per lunghi viaggi.", "Impatto ambientale dell'estrazione dei minerali per le batterie (litio, cobalto).", "Necessità di potenziare la rete di distribuzione elettrica."],
+                current: "In fortissima espansione globale per auto private (BEV), scooter, biciclette a pedalata assistita e trasporto pubblico urbano.",
+                future: "Batterie allo stato solido per maggiore autonomia e sicurezza, e integrazione bidirezionale (Vehicle-to-Grid) per stabilizzare le reti elettriche."
+            },
+            {
+                id: "efuel",
+                name: "E-fuel",
+                icon: "🧪",
+                history: "I carburanti sintetici risalgono al processo Fischer-Tropsch sviluppato negli anni '20. Oggi l'idea è ripresa usando energia rinnovabile per unire idrogeno verde e CO2 catturata dall'aria.",
+                pros: ["Carbon neutral (la CO2 emessa allo scarico compensa quella catturata in produzione).", "Compatibili al 100% con gli attuali motori a scoppio e distributori.", "Ottima stabilità per lo stoccaggio a lungo termine."],
+                cons: ["Processo di produzione energeticamente molto inefficiente (si perde molta energia rinnovabile iniziale).", "Costi di produzione attualmente proibitivi.", "Non eliminano le emissioni locali di inquinanti (NOx)."],
+                current: "Produzione in impianti pilota sperimentali (es. impianto in Cile supportato da vari costruttori storici).",
+                future: "Soluzione di nicchia per salvare le auto storiche/sportive e per decarbonizzare l'aviazione e il trasporto marittimo."
+            },
+            {
+                id: "nucleare",
+                name: "Energia Nucleare",
+                icon: "⚛️",
+                history: "Il primo reattore commerciale fu attivato negli anni '50. Ha vissuto un boom fino agli anni '80, frenato poi dai noti incidenti di Three Mile Island, Chernobyl e Fukushima.",
+                pros: ["Produzione massiccia e costante di energia (baseload) 24/7.", "Emissioni di gas serra quasi nulle, fondamentali per la lotta al cambiamento climatico.", "Alta densità energetica (pochissimo uranio per moltissima energia)."],
+                cons: ["Gestione complessa delle scorie radioattive a lunga vita.", "Costi di costruzione iniziali e tempi di realizzazione enormi.", "Rischi (seppur statisticamente bassissimi) di incidenti con impatto vastissimo."],
+                current: "Fornisce circa il 10% dell'elettricità mondiale, con forti investimenti in Cina e mantenimento in paesi come la Francia.",
+                future: "Sviluppo di Small Modular Reactors (SMR) di quarta generazione, più sicuri ed economici. Speranza a lunghissimo termine nella fusione nucleare."
+            },
+            {
+                id: "solare",
+                name: "Solare",
+                icon: "☀️",
+                history: "La prima cella solare pratica al silicio fu sviluppata dai Bell Labs nel 1954, usata inizialmente per alimentare i satelliti spaziali. Dagli anni 2000 i costi sono crollati permettendone la diffusione di massa.",
+                pros: ["Fonte inesauribile e accessibile ovunque.", "Modularità (da un singolo pannello per camper a mega-centrali).", "Costi di installazione sempre più bassi."],
+                cons: ["Intermittente e non programmabile (non produce di notte o con nuvole spesse).", "Richiede vaste superfici per grandi potenze.", "Necessità di sistemi di accumulo (batterie) per differire il consumo."],
+                current: "Fondamentale nel mix energetico moderno. Diffuso sui tetti residenziali, capannoni industriali e nei parchi agrivoltaici.",
+                future: "Pannelli in perovskite per efficienze superiori al 30%, finestre solari trasparenti e integrazione architettonica invisibile."
+            },
+            {
+                id: "eolico",
+                name: "Eolico",
+                icon: "🌬️",
+                history: "Dai classici mulini a vento, la prima turbina eolica moderna fu costruita a fine '800. Lo sviluppo industriale massiccio è iniziato in Danimarca negli anni '70.",
+                pros: ["Fonte pulita con uno dei costi di generazione più bassi in assoluto (LCOE).", "Non occupa il suolo agricolo sottostante (solo la base).", "Produce spesso di più in inverno, bilanciando il calo del solare."],
+                cons: ["Impatto visivo e paesaggistico (sindrome NIMBY).", "Intermittenza del vento.", "Criticità legate allo smaltimento delle pale in vetroresina a fine vita."],
+                current: "Grandi parchi eolici terrestri (onshore) e imponenti installazioni marine (offshore) nei mari del nord Europa.",
+                future: "Eolico offshore galleggiante per sfruttare i venti costanti in alto mare, e turbine di dimensioni colossali (oltre 15 MW l'una) per massimizzare la resa."
+            },
+            {
+                id: "metano",
+                name: "Metano (Gas Naturale)",
+                icon: "🔥",
+                history: "Il gas naturale (principalmente metano, CH4) è stato storicamente usato per l'illuminazione pubblica. Con la metanizzazione degli anni '70-'80 è diventato primario per riscaldamento e industria.",
+                pros: ["Tra i fossili è quello che emette meno CO2 in combustione.", "Non produce polveri sottili (PM) o composti solforati.", "Rete di distribuzione capillare in molti paesi (come l'Italia)."],
+                cons: ["È un gas serra fossile; la sua combustione aggrava comunque il clima.", "Fughe di metano durante l'estrazione e trasporto sono molto dannose (potere climalterante alto).", "Le bombole per autotrazione sono pesanti e tolgono spazio al carico."],
+                current: "Usato in autotrazione (CNG per auto, LNG per camion), riscaldamento domestico e centrali termoelettriche a ciclo combinato.",
+                future: "La versione fossile andrà ridotta, ma la tecnologia e la rete rimarranno per supportare il Biometano, prodotto da rifiuti organici agricoli e urbani."
+            },
+            {
+                id: "gpl",
+                name: "GPL",
+                icon: "⛽",
+                history: "Il Gas di Petrolio Liquefatto (miscela di propano e butano) è un sottoprodotto della raffinazione del petrolio greggio e dell'estrazione del gas naturale, diffuso come carburante economico dal dopoguerra.",
+                pros: ["Facilmente liquefacibile a basse pressioni, richiede serbatoi leggeri (spesso toroidali nel vano ruota di scorta).", "Combustione più pulita rispetto a benzina e gasolio (meno NOx e PM).", "Costo alla pompa molto vantaggioso per l'automobilista."],
+                cons: ["Derivazione interamente fossile.", "Divieti di parcheggio sotterraneo (oltre il 1° piano interrato) per ragioni di sicurezza, essendo un gas più pesante dell'aria.", "Lievi cali prestazionali del motore."],
+                current: "Carburante alternativo molto popolare in paesi come Italia, Turchia e Polonia. Moltissime auto nascono 'bifuel' (benzina/GPL) direttamente dalla fabbrica.",
+                future: "Come combustibile fossile ha i giorni contati nel lungo termine, sebbene si stia studiando il Bio-GPL prodotto da scarti di raffinerie biologiche."
+            },
+            {
+                id: "biodiesel1",
+                name: "Biodiesel 1a Generazione",
+                icon: "🌻",
+                history: "Il termine biodiesel (FAME - Fatty Acid Methyl Ester) si diffuse negli anni '90 per definire il carburante ricavato dalla transesterificazione di oli vegetali (colza, soia, girasole, palma).",
+                pros: ["Biodegradabile e con ciclo del carbonio teoricamente neutro.", "Alto potere lubrificante per i motori.", "Utilizzabile nei motori diesel esistenti se in basse miscele."],
+                cons: ["Enorme competizione con il settore alimentare (Food vs Fuel).", "Causa di deforestazione incontrollata (es. olio di palma in sud-est asiatico).", "Peggiora a basse temperature e può favorire flora batterica nei serbatoi."],
+                current: "Ancora utilizzato e miscelato per obblighi di legge nel normale gasolio da autotrazione (solitamente fino al 7%, B7).",
+                future: "Le normative europee stanno attivamente eliminando il supporto ai biocarburanti di prima generazione legati al rischio di cambio di destinazione d'uso dei terreni (ILUC)."
+            },
+            {
+                id: "biodiesel2",
+                name: "Biodiesel 2a Generazione",
+                icon: "♻️",
+                history: "Sviluppato per rispondere alle criticità etiche e ambientali della prima generazione, utilizza esclusivamente scarti non edibili per produrre carburante.",
+                pros: ["Nessuna competizione con la filiera alimentare.", "Promuove un'economia circolare riutilizzando rifiuti problematici da smaltire.", "Significativa riduzione reale delle emissioni di gas serra sull'intero ciclo di vita."],
+                cons: ["Logistica di raccolta complessa e costosa (recuperare l'olio fritto da ristoranti e cittadini).", "Volumi di materia prima intrinsecamente limitati rispetto al fabbisogno globale di carburanti.", "Il processo chimico (FAME) mantiene alcuni limiti tecnici invernali."],
+                current: "Cresce la sua percentuale all'interno delle miscele di gasolio commerciali, sostituendo gradualmente il biodiesel da colture dedicate.",
+                future: "Espansione massima possibile limitata solo dalla disponibilità di scarti; ricerca su biomasse algali (3a generazione) per aumentare i volumi."
+            },
+            {
+                id: "hvo",
+                name: "HVO (Olio Veg. Idrotrattato)",
+                icon: "🔬",
+                history: "L'HVO è un biocarburante avanzato di sintesi. Attraverso l'idrotrattamento di oli vegetali o scarti animali, si ottiene un idrocarburo paraffinico chimicamente quasi identico al gasolio fossile, privo dell'ossigeno tipico del biodiesel FAME.",
+                pros: ["Carburante 'Drop-in': usabile puro al 100% in quasi tutti i moderni motori diesel senza modifiche.", "Non è igroscopico, non forma batteri e resiste a temperature bassissime.", "Migliora l'efficienza della combustione riducendo fumosità e rumorosità."],
+                cons: ["Processo di raffinazione costoso che richiede grandi quantità di idrogeno.", "La disponibilità dipende sempre dagli scarti (grassi animali, oli esausti), che sono limitati.", "Costo alla pompa spesso lievemente superiore al diesel fossile."],
+                current: "Fortemente promosso in Italia (es. HVOlution di Eni) e Nord Europa per le flotte di camion, autobus e automobilisti attenti all'ambiente.",
+                future: "Sarà il pilastro a breve e medio termine per abbattere subito le emissioni (fino al 90%) del vasto parco circolante diesel pesante che non può essere elettrificato immediatamente."
+            },
+            {
+                id: "diesel_bianco",
+                name: "Diesel Bianco (Emulsione)",
+                icon: "🥛",
+                history: "Diffuso a cavallo tra gli anni '90 e 2000 in Italia (noto commercialmente come GECAM), non è un biocarburante, ma un'emulsione chimicamente stabilizzata di gasolio fossile (circa 85%) e acqua demineralizzata (circa 15%).",
+                pros: ["L'acqua evapora durante lo scoppio abbassando drasticamente le temperature di picco nella camera di combustione.", "Riduce enormemente le emissioni di ossidi di azoto (NOx) e del particolato fine (PM).", "Si poteva usare sui vecchi motori diesel inquinanti per migliorarne le emissioni."],
+                cons: ["Minore potere calorifico: comporta un calo di potenza o un aumento dei consumi volumetrici.", "L'emulsione tende a separarsi (stratificare) se lasciata ferma per mesi nei serbatoi.", "Sensibile alle temperature rigide (rischio congelamento dell'acqua)."],
+                current: "L'uso su strada è quasi scomparso, soppiantato dall'arrivo dei moderni filtri antiparticolato (FAP/DPF) e dai sistemi SCR (AdBlue) che svolgono la stessa funzione sui NOx in modo più efficiente.",
+                future: "Mentre per le auto è una tecnologia superata, il principio dell'emulsione acqua-carburante è attivamente studiato e utilizzato nei grandi motori navali per rispettare le nuove normative sulle emissioni portuali."
+            },
+            {
+                id: "idroelettrico",
+                name: "Idroelettrico",
+                icon: "🌊",
+                history: "La prima forma di produzione massiccia di elettricità, motore dell'industrializzazione a inizio '900. In Italia le dighe alpine furono il 'carbone bianco' del nord.",
+                pros: ["Energia programmabile e istantanea: basta aprire o chiudere le condotte forzate in base alla richiesta della rete.", "Costi operativi e di manutenzione bassissimi nel lungo periodo.", "Zero emissioni in fase operativa."],
+                cons: ["Severo impatto ambientale sugli ecosistemi fluviali (interruzione continuità biologica dei pesci).", "Potenziale geografico ormai saturo nei paesi sviluppati.", "Vulnerabilità estrema alle siccità prolungate (cambiamento climatico)."],
+                current: "Spina dorsale del sistema rinnovabile globale, copre circa il 15-16% dell'energia mondiale e fornisce stabilità alla rete elettrica.",
+                future: "Non si costruiranno molte nuove grandi dighe in occidente. Il futuro è il 'pumping hydro' (sistemi di pompaggio) per usare i laghi come gigantesche batterie gravitazionali."
+            },
+            {
+                id: "geotermico",
+                name: "Geotermico",
+                icon: "🌋",
+                history: "La prima lampadina accesa dal vapore terrestre fu a Larderello, in Toscana, nel 1904. Sfrutta il calore naturale proveniente dal magma sotterraneo.",
+                pros: ["Unica fonte rinnovabile che è per sua natura un baseload: funziona sempre, 24 ore su 24, indipendentemente dal clima.", "Occupa pochissimo spazio in superficie.", "Lunghissima vita utile degli impianti."],
+                cons: ["Le centrali ad alta entalpia (per fare elettricità) sono fattibili solo in zone con specifiche anomalie geologiche.", "Possibile rilascio di gas sgradevoli o nocivi (idrogeno solforato) e rischio sismicità indotta.", "Costi e rischi di esplorazione/trivellazione elevati."],
+                current: "Islanda, Nuova Zelanda e California ne fanno un uso massiccio. In Italia, la Toscana copre oltre un terzo del suo fabbisogno elettrico con la geotermia.",
+                future: "Sistemi EGS (Enhanced Geothermal Systems) per iniettare acqua in rocce calde e secche ovunque, svincolando la geotermia dalle zone vulcaniche attive."
+            }
+        ];
+
+        // Riferimenti DOM
+        const navContainer = document.getElementById('nav-container');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const contentContainer = document.getElementById('content-container');
+        
+        const catTitle = document.getElementById('cat-title');
+        const catHistory = document.getElementById('cat-history');
+        const catPros = document.getElementById('cat-pros');
+        const catCons = document.getElementById('cat-cons');
+        const catCurrent = document.getElementById('cat-current');
+        const catFuture = document.getElementById('cat-future');
+
+        let activeBtnId = null;
+
+        // Inizializzazione della Navigazione
+        function renderNav() {
+            energyData.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = `flex-shrink-0 md:flex-shrink w-full text-left px-4 py-3 rounded-lg transition-all duration-200 border-l-4 border-transparent hover:bg-teal-50 hover:text-teal-700 whitespace-nowrap md:whitespace-normal font-medium text-slate-600 bg-white shadow-sm md:shadow-none md:bg-transparent`;
+                btn.id = `btn-${item.id}`;
+                btn.innerHTML = `<span class="mr-2 text-xl">${item.icon}</span> ${item.name}`;
+                
+                btn.addEventListener('click', () => showCategory(item.id));
+                navContainer.appendChild(btn);
+            });
+        }
+
+        // Funzione per generare liste (vantaggi/svantaggi)
+        function generateList(items) {
+            return items.map(item => `<li>${item}</li>`).join('');
+        }
+
+        // Funzione per mostrare i contenuti
+        function showCategory(id) {
+            const data = energyData.find(e => e.id === id);
+            if (!data) return;
+
+            // Aggiorna stili pulsanti
+            if (activeBtnId) {
+                const prevBtn = document.getElementById(`btn-${activeBtnId}`);
+                prevBtn.classList.remove('bg-teal-50', 'border-teal-500', 'text-teal-700', 'font-bold');
+                prevBtn.classList.add('border-transparent', 'font-medium');
+            }
+            const currentBtn = document.getElementById(`btn-${id}`);
+            currentBtn.classList.remove('border-transparent', 'font-medium');
+            currentBtn.classList.add('bg-teal-50', 'border-teal-500', 'text-teal-700', 'font-bold');
+            activeBtnId = id;
+
+            // Nascondi benvenuto, mostra contenuti con animazione
+            welcomeMessage.classList.add('hidden');
+            contentContainer.classList.remove('hidden');
+            
+            // Rimuovi e reinserisci classe animazione per re-trigger
+            contentContainer.classList.remove('fade-in');
+            void contentContainer.offsetWidth; // trigger reflow
+            contentContainer.classList.add('fade-in');
+
+            // Popola i dati
+            catTitle.innerHTML = `${data.icon} ${data.name}`;
+            catHistory.textContent = data.history;
+            catPros.innerHTML = generateList(data.pros);
+            catCons.innerHTML = generateList(data.cons);
+            catCurrent.textContent = data.current;
+            catFuture.textContent = data.future;
+            
+            // Scroll su mobile
+            if (window.innerWidth < 768) {
+               contentContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Esegui al caricamento
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNav();
+        });
+
+    </script>
+</body>
+</html>
